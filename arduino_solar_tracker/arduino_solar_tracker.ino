@@ -1,44 +1,3 @@
-/*
- * ================================================================
- * DUAL AXIS SOLAR TRACKER - Arduino UNO Controller
- * ================================================================
- * 
- * Project by: Sam Joseph (@sam-black007) & K M Sri Hari (@kmsrihari123)
- * 
- * Features:
- * - Dual servo control for horizontal and vertical axis
- * - LDR sensor array for sun tracking
- * - 16x2 I2C LCD display
- * - Rotary encoder for manual control
- * - Physical button for menu navigation
- * - Serial communication with ESP32
- * 
- * Developed by: K M Sri Hari
- * - Hardware Design & Circuit Implementation
- * - Arduino UNO Motor Controller Programming
- * - LDR Sensor Integration
- * 
- * Required Libraries:
- * - Servo (built-in)
- * - Wire (built-in)
- * - EEPROM (built-in)
- * - LiquidCrystal_I2C (Frank de Brabander)
- * - Encoder (Paul Stoffregen)
- * 
- * Wiring:
- * - Servo H  → Pin 9
- * - Servo V  → Pin 10
- * - Encoder CLK → Pin 2
- * - Encoder DT  → Pin 3
- * - Encoder SW  → Pin 4 (INPUT_PULLUP)
- * - LDR TL → A0
- * - LDR TR → A1
- * - LDR BL → A2
- * - LDR BR → A3
- * - LCD 16x2 I2C (0x27) → SDA=A4, SCL=A5
- * ================================================================
- */
-
 #include <Servo.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
@@ -86,6 +45,10 @@ int homeV = 5;
 int currentH, currentV;
 int targetH, targetV;
 int moveSpeed = 8;
+
+unsigned long lastSignalTime = 0;
+const unsigned long SIGNAL_TIMEOUT = 2000;
+bool servoPaused = false;
 
 // ================================================================
 // LDR SENSOR CONFIGURATION
@@ -292,11 +255,30 @@ void sendLCDToESP() {
 }
 
 // ================================================================
-// SERVO CONTROL
+// SERVO CONTROL (Jitter Reduction)
 // ================================================================
 void smoothServoMove() {
     if (millis() - trackingTimer < (unsigned long)moveSpeed) return;
     trackingTimer = millis();
+    
+    if (currentMode == MODE_MANUAL) {
+        unsigned long idleTime = millis() - lastSignalTime;
+        
+        if (idleTime > SIGNAL_TIMEOUT && !servoPaused) {
+            servoPaused = true;
+            servoH.detach();
+            servoV.detach();
+        }
+        else if (idleTime < SIGNAL_TIMEOUT && servoPaused) {
+            servoH.attach(SERVO_H_PIN);
+            servoV.attach(SERVO_V_PIN);
+            servoH.write(currentH);
+            servoV.write(currentV);
+            servoPaused = false;
+        }
+        
+        if (servoPaused) return;
+    }
     
     if (currentH != targetH || currentV != targetV) {
         if (currentH < targetH) currentH++;
@@ -470,6 +452,17 @@ float getSerialFloat(const char* key) {
 
 void parseSerialCommand() {
     if (serialBufferLen == 0) return;
+    
+    if (currentMode == MODE_MANUAL) {
+        lastSignalTime = millis();
+        if (servoPaused) {
+            servoH.attach(SERVO_H_PIN);
+            servoV.attach(SERVO_V_PIN);
+            servoH.write(currentH);
+            servoV.write(currentV);
+            servoPaused = false;
+        }
+    }
     
     // Parse sensor data from ESP32
     if (serialBuffer[0] == 'T' && serialBuffer[1] == ':') {

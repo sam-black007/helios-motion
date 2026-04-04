@@ -40,13 +40,15 @@
 #include <DHT.h>
 #include <Preferences.h>
 #include <math.h>
+#include <SolarCalculator.h>
+#include <TimeLib.h>
 
 // ================================================================
 // USER CONFIGURATION
 // ================================================================
-const char* WIFI_SSID     = "YOUR_WIFI_SSID";
-const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
-const char* OWM_API_KEY   = "your_openweathermap_api_key";  // Get free key at openweathermap.org
+const char* WIFI_SSID     = " AC";
+const char* WIFI_PASSWORD = "123456789";
+const char* OWM_API_KEY   = "9a01ccded656dde3024528ed4e28ff12";  // Get free key at openweathermap.org
 
 // Location settings
 #define LATITUDE  "13.0827"   // Chennai - change to your location
@@ -135,6 +137,13 @@ unsigned long lastSensorUpdate = 0;
 unsigned long lastAPIFetch = 0;
 unsigned long lastEnergyCalc = 0;
 bool apiFetched = false;
+
+double trackerLat = 0.0;
+double trackerLon = 0.0;
+double sunAzimuth = 0.0;
+double sunElevation = 0.0;
+unsigned long lastSunUpdate = 0;
+const unsigned long SUN_UPDATE_INTERVAL = 60000;
 
 // ================================================================
 // SOLAR CALCULATIONS
@@ -328,6 +337,7 @@ void loadSettings() {
     flipH = preferences.getBool("flipH", false);
     flipV = preferences.getBool("flipV", false);
     preferences.end();
+    loadCachedLocation();
 }
 
 void saveSettings() {
@@ -338,6 +348,60 @@ void saveSettings() {
     preferences.putBool("flipH", flipH);
     preferences.putBool("flipV", flipV);
     preferences.end();
+}
+
+// ================================================================
+// IP GEOLOCATION
+// ================================================================
+void fetchLocationFromIP() {
+    if (WiFi.status() != WL_CONNECTED) return;
+    HTTPClient http;
+    http.begin("http://ipapi.co/json/");
+    http.setTimeout(5000);
+    if (http.GET() == 200) {
+        String payload = http.getString();
+        int latIdx = payload.indexOf("\"latitude\":") + 11;
+        int lonIdx = payload.indexOf("\"longitude\":") + 12;
+        if (latIdx > 10 && lonIdx > 10) {
+            String latStr = payload.substring(latIdx, payload.indexOf(",", latIdx));
+            String lonStr = payload.substring(lonIdx, payload.indexOf("}", lonIdx));
+            trackerLat = latStr.toDouble();
+            trackerLon = lonStr.toDouble();
+            Serial.print("LOC:");
+            Serial.print(trackerLat, 6);
+            Serial.print(",");
+            Serial.println(trackerLon, 6);
+            preferences.begin("solar-tracker", false);
+            preferences.putDouble("lat", trackerLat);
+            preferences.putDouble("lon", trackerLon);
+            preferences.end();
+        }
+    }
+    http.end();
+}
+
+void loadCachedLocation() {
+    preferences.begin("solar-tracker", false);
+    trackerLat = preferences.getDouble("lat", 0.0);
+    trackerLon = preferences.getDouble("lon", 0.0);
+    preferences.end();
+}
+
+void updateSunPosition() {
+    if (trackerLat == 0.0 && trackerLon == 0.0) return;
+    time_t utc = now();
+    calcHorizontalCoordinates(utc, trackerLat, trackerLon, sunAzimuth, sunElevation);
+    Serial.printf("SUN: Az=%.1f El=%.1f\n", sunAzimuth, sunElevation);
+}
+
+int azimuthToServoH(double azimuth) {
+    int servoH = (int)(180 - azimuth);
+    return constrain(servoH, 5, 175);
+}
+
+int elevationToServoV(double elevation) {
+    int servoV = (int)map((int)elevation, 0, 90, 175, 5);
+    return constrain(servoV, 5, 175);
 }
 
 // ================================================================
@@ -1327,6 +1391,14 @@ void setup() {
         // Send WiFi info to Arduino
         Serial2.println("WIFI:" + systemState.wifiIP);
         
+        // Fetch location from IP
+        if (trackerLat == 0.0 && trackerLon == 0.0) {
+            fetchLocationFromIP();
+        }
+        
+        // Configure NTP time
+        configTime(0, 0, "pool.ntp.org", "time.nist.gov");
+        
         // Fetch initial weather data
         fetchWeatherData();
     } else {
@@ -1366,6 +1438,15 @@ void loop() {
     if (now - lastAPIFetch > 600000 && systemState.wifiConnected) {
         lastAPIFetch = now;
         fetchWeatherData();
+    }
+    
+    // Update sun position every 60 seconds
+    if (now - lastSunUpdate > SUN_UPDATE_INTERVAL && trackerLat != 0.0) {
+        lastSunUpdate = now;
+        updateSunPosition();
+        int solarH = azimuthToServoH(sunAzimuth);
+        int solarV = elevationToServoV(sunElevation);
+        Serial2.printf("SOLAR:%d,%d\n", solarH, solarV);
     }
     
     delay(10);
