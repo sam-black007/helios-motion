@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 800" width="1000" height="800">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#080e1a"/>
+      <stop offset="100%" style="stop-color:#131d31"/>
+    </linearGradient>
+    <linearGradient id="lane1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6"/>
+      <stop offset="100%" style="stop-color:#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="lane2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#06b6d4"/>
+      <stop offset="100%" style="stop-color:#0891b2"/>
+    </linearGradient>
+    <linearGradient id="lane3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#059669"/>
+    </linearGradient>
+    <filter id="shadow3" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    <marker id="arrowB" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowG" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="800" fill="url(#bgGrad3)" rx="16"/>
+  <rect x="2" y="2" width="996" height="796" fill="none" stroke="#1e293b" stroke-width="2" rx="16"/>
+
+  <!-- Title Badge -->
+  <rect x="250" y="25" width="500" height="50" rx="25" fill="#1e293b" stroke="#06b6d4" stroke-width="2" filter="url(#shadow3)"/>
+  <text x="500" y="56" text-anchor="middle" fill="#22d3ee" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" letter-spacing="1">FULL-DUPLEX UART PROTOCOL</text>
+
+  <!-- Lifeline Columns -->
+  <!-- Lane 1: Web Browser -->
+  <rect x="80" y="100" width="200" height="50" rx="8" fill="url(#lane1)" filter="url(#shadow3)"/>
+  <text x="180" y="130" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">Web Browser Client</text>
+  <line x1="180" y1="150" x2="180" y2="740" stroke="#334155" stroke-width="2" stroke-dasharray="6,6"/>
+
+  <!-- Lane 2: ESP32 -->
+  <rect x="400" y="100" width="200" height="50" rx="8" fill="url(#lane2)" filter="url(#shadow3)"/>
+  <text x="500" y="130" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">ESP32 (Master Gateway)</text>
+  <line x1="500" y1="150" x2="500" y2="740" stroke="#334155" stroke-width="2" stroke-dasharray="6,6"/>
+
+  <!-- Lane 3: Arduino UNO -->
+  <rect x="720" y="100" width="200" height="50" rx="8" fill="url(#lane3)" filter="url(#shadow3)"/>
+  <text x="820" y="130" text-anchor="middle" fill="#fff" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">Arduino UNO (Motor Hub)</text>
+  <line x1="820" y1="150" x2="820" y2="740" stroke="#334155" stroke-width="2" stroke-dasharray="6,6"/>
+
+  <!-- Callout: Level Shift Divider -->
+  <rect x="580" y="165" width="220" height="40" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="690" y="190" text-anchor="middle" fill="#fcd34d" font-family="Segoe UI, sans-serif" font-size="12">Voltage Divider: 5V TX -&gt; 3.3V RX</text>
+
+  <!-- Message 1: Periodic LDR Telemetry -->
+  <line x1="820" y1="230" x2="500" y2="230" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrowG)"/>
+  <text x="660" y="220" text-anchor="middle" fill="#34d399" font-family="Segoe UI, sans-serif" font-size="13" font-weight="bold">"LDR:512,520,480,490\n"</text>
+  <text x="660" y="248" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Periodic Telemetry @ 600ms</text>
+
+  <!-- Message 2: Periodic Servo Position -->
+  <line x1="820" y1="280" x2="500" y2="280" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrowG)"/>
+  <text x="660" y="270" text-anchor="middle" fill="#34d399" font-family="Segoe UI, sans-serif" font-size="13" font-weight="bold">"POS:90,45\n"</text>
+  <text x="660" y="298" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Current H &amp; V Angles</text>
+
+  <!-- Message 3: HTTP JSON Push to Browser -->
+  <line x1="500" y1="330" x2="180" y2="330" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowB)"/>
+  <text x="340" y="320" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="13" font-weight="bold">HTTP JSON: { h:90, v:45, ldr:[...] }</text>
+  <text x="340" y="348" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Dashboard Live Gauges Auto-Refresh</text>
+
+  <!-- Message 4: User Manual Slider Command -->
+  <line x1="180" y1="410" x2="500" y2="410" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#arrowA)"/>
+  <text x="340" y="400" text-anchor="middle" fill="#fcd34d" font-family="Segoe UI, sans-serif" font-size="13" font-weight="bold">User Action: Drag Slider (H = 120°)</text>
+  <text x="340" y="428" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">POST /api/control?h=120</text>
+
+  <!-- Message 5: Forward to Arduino -->
+  <line x1="500" y1="450" x2="820" y2="450" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#arrowA)"/>
+  <text x="660" y="440" text-anchor="middle" fill="#fcd34d" font-family="Segoe UI, sans-serif" font-size="13" font-weight="bold">"SH:120\n"</text>
+  <text x="660" y="468" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Command: Set Horizontal Servo</text>
+
+  <!-- Execution on Arduino -->
+  <rect x="760" y="480" width="120" height="36" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="1.5"/>
+  <text x="820" y="503" text-anchor="middle" fill="#6ee7b7" font-family="Segoe UI, sans-serif" font-size="11">servoH.write(120)</text>
+
+  <!-- Message 6: ACK POS back -->
+  <line x1="820" y1="540" x2="500" y2="540" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrowG)"/>
+  <text x="660" y="530" text-anchor="middle" fill="#34d399" font-family="Segoe UI, sans-serif" font-size="13" font-weight="bold">"POS:120,45\n"</text>
+
+  <!-- Message 7: Reconfiguration Command -->
+  <line x1="180" y1="610" x2="500" y2="610" stroke="#a855f7" stroke-width="2.5" marker-end="url(#arrowB)"/>
+  <text x="340" y="600" text-anchor="middle" fill="#c084fc" font-family="Segoe UI, sans-serif" font-size="13" font-weight="bold">User Action: Invert Axis / Speed</text>
+
+  <!-- Message 8: Forward Reconfig to Arduino -->
+  <line x1="500" y1="650" x2="820" y2="650" stroke="#a855f7" stroke-width="2.5" marker-end="url(#arrowB)"/>
+  <text x="660" y="640" text-anchor="middle" fill="#c084fc" font-family="Segoe UI, sans-serif" font-size="13" font-weight="bold">"SPD:10\n" &amp; "FLIP:H\n"</text>
+  <text x="660" y="668" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Committed to Arduino EEPROM</text>
+
+</svg>

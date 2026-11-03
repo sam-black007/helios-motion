@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 800" width="1100" height="800">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#080e1a"/>
+      <stop offset="100%" style="stop-color:#131d31"/>
+    </linearGradient>
+    <linearGradient id="autoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0284c7"/>
+      <stop offset="100%" style="stop-color:#0369a1"/>
+    </linearGradient>
+    <linearGradient id="manualGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#d97706"/>
+    </linearGradient>
+    <linearGradient id="presetGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="demoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#10b981"/>
+      <stop offset="100%" style="stop-color:#059669"/>
+    </linearGradient>
+    <linearGradient id="customGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899"/>
+      <stop offset="100%" style="stop-color:#be185d"/>
+    </linearGradient>
+    <filter id="shadow2" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowM" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="800" fill="url(#bgGrad2)" rx="16"/>
+  <rect x="2" y="2" width="1096" height="796" fill="none" stroke="#1e293b" stroke-width="2" rx="16"/>
+
+  <!-- Title Badge -->
+  <rect x="300" y="25" width="500" height="50" rx="25" fill="#1e293b" stroke="#0284c7" stroke-width="2" filter="url(#shadow2)"/>
+  <text x="550" y="56" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" letter-spacing="1">OPERATING MODES STATE MACHINE</text>
+
+  <!-- Central State: MODE_AUTO -->
+  <rect x="375" y="320" width="350" height="180" rx="14" fill="#0f172a" stroke="#0284c7" stroke-width="3" filter="url(#shadow2)"/>
+  <rect x="375" y="320" width="350" height="42" rx="14" fill="url(#autoGrad)"/>
+  <text x="550" y="348" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, sans-serif" font-size="16" font-weight="bold">MODE_AUTO (Primary Active State)</text>
+  
+  <!-- Sub-states in AUTO -->
+  <rect x="400" y="380" width="140" height="90" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="470" y="415" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="13" font-weight="bold">Tracking Active</text>
+  <text x="470" y="435" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">EMA Light Tracking</text>
+  <text x="470" y="452" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">ΔH &amp; ΔV Deadbands</text>
+
+  <rect x="560" y="380" width="140" height="90" rx="8" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="630" y="415" text-anchor="middle" fill="#c084fc" font-family="Segoe UI, sans-serif" font-size="13" font-weight="bold">Night Stowed</text>
+  <text x="630" y="435" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">Avg Lux &lt; 150</text>
+  <text x="630" y="452" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="11">H=175°, V=5°</text>
+
+  <!-- Internal transitions -->
+  <line x1="540" y1="410" x2="560" y2="410" stroke="#f59e0b" stroke-width="2"/>
+  <line x1="560" y1="440" x2="540" y2="440" stroke="#38bdf8" stroke-width="2"/>
+
+  <!-- Top State: MODE_MANUAL -->
+  <rect x="390" y="110" width="320" height="110" rx="12" fill="#1e293b" stroke="#f59e0b" stroke-width="2.5" filter="url(#shadow2)"/>
+  <rect x="390" y="110" width="320" height="35" rx="12" fill="url(#manualGrad)"/>
+  <text x="550" y="134" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">MODE_MANUAL (Override)</text>
+  <text x="550" y="170" text-anchor="middle" fill="#fcd34d" font-family="Segoe UI, sans-serif" font-size="13">Web Sliders OR Local Rotary Dial</text>
+  <text x="550" y="195" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="12">Direct Servo Angles [5° .. 175°]</text>
+
+  <!-- AUTO <-> MANUAL arrows -->
+  <line x1="490" y1="320" x2="490" y2="225" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#arrowM)"/>
+  <text x="360" y="270" fill="#fcd34d" font-family="Segoe UI, sans-serif" font-size="12">Slider Move / Knob</text>
+
+  <line x1="610" y1="220" x2="610" y2="320" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow2)"/>
+  <text x="620" y="270" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="12">'MODE:AUTO' / Menu Exit</text>
+
+  <!-- Right State: MODE_PRESET -->
+  <rect x="800" y="350" width="260" height="120" rx="12" fill="#1e293b" stroke="#8b5cf6" stroke-width="2.5" filter="url(#shadow2)"/>
+  <rect x="800" y="350" width="260" height="35" rx="12" fill="url(#presetGrad)"/>
+  <text x="930" y="374" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">MODE_PRESET (1 .. 6)</text>
+  <text x="930" y="410" text-anchor="middle" fill="#c084fc" font-family="Segoe UI, sans-serif" font-size="13">Astronomical Sun Angles</text>
+  <text x="930" y="435" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="12">Morning / Noon / Night</text>
+
+  <!-- AUTO <-> PRESET arrows -->
+  <line x1="725" y1="390" x2="800" y2="390" stroke="#8b5cf6" stroke-width="2.5" marker-end="url(#arrow2)"/>
+  <text x="735" y="380" fill="#c084fc" font-family="Segoe UI, sans-serif" font-size="11">PRESET:x</text>
+
+  <line x1="800" y1="430" x2="725" y2="430" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow2)"/>
+  <text x="735" y="450" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="11">Finished</text>
+
+  <!-- Left State: MODE_DEMO -->
+  <rect x="40" y="350" width="260" height="120" rx="12" fill="#1e293b" stroke="#10b981" stroke-width="2.5" filter="url(#shadow2)"/>
+  <rect x="40" y="350" width="260" height="35" rx="12" fill="url(#demoGrad)"/>
+  <text x="170" y="374" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">MODE_DEMO (H / V / HV)</text>
+  <text x="170" y="410" text-anchor="middle" fill="#6ee7b7" font-family="Segoe UI, sans-serif" font-size="13">Mechanical Sweeps</text>
+  <text x="170" y="435" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="12">18ms Stepping Calibration</text>
+
+  <!-- AUTO <-> DEMO arrows -->
+  <line x1="375" y1="390" x2="300" y2="390" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow2)"/>
+  <text x="315" y="380" fill="#6ee7b7" font-family="Segoe UI, sans-serif" font-size="11">DEMO</text>
+
+  <line x1="300" y1="430" x2="375" y2="430" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow2)"/>
+  <text x="315" y="450" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="11">Finished</text>
+
+  <!-- Bottom State: MODE_CUSTOM -->
+  <rect x="390" y="600" width="320" height="120" rx="12" fill="#1e293b" stroke="#ec4899" stroke-width="2.5" filter="url(#shadow2)"/>
+  <rect x="390" y="600" width="320" height="35" rx="12" fill="url(#customGrad)"/>
+  <text x="550" y="624" text-anchor="middle" fill="#ffffff" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">MODE_CUSTOM (Waypoints)</text>
+  <text x="550" y="660" text-anchor="middle" fill="#f472b6" font-family="Segoe UI, sans-serif" font-size="13">5-Point Waypoint Path</text>
+  <text x="550" y="685" text-anchor="middle" fill="#94a3b8" font-family="Segoe UI, sans-serif" font-size="12">3000ms Dwell per Coordinate</text>
+
+  <!-- AUTO <-> CUSTOM arrows -->
+  <line x1="490" y1="500" x2="490" y2="595" stroke="#ec4899" stroke-width="2.5" marker-end="url(#arrow2)"/>
+  <text x="430" y="555" fill="#f472b6" font-family="Segoe UI, sans-serif" font-size="11">CUSTOM</text>
+
+  <line x1="610" y1="600" x2="610" y2="505" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow2)"/>
+  <text x="615" y="555" fill="#38bdf8" font-family="Segoe UI, sans-serif" font-size="11">Done (Count=5)</text>
+
+</svg>

@@ -16,7 +16,7 @@ Built upon a distributed **master-slave dual-microcontroller architecture**, the
 ---
 
 <p align="center">
-  <img src="images/hardware.jpg" alt="Dual Axis Solar Tracker Hardware Rig" width="720">
+  <img src="images/hardware.jpg" alt="Dual Axis Solar Tracker Hardware Rig" width="750">
 </p>
 
 ---
@@ -34,12 +34,12 @@ Built upon a distributed **master-slave dual-microcontroller architecture**, the
 
 - [Solar Physics & Efficiency Rationale](#-solar-physics--efficiency-rationale)
 - [Key Features](#-key-features)
-- [Distributed System Architecture](#-distributed-system-architecture)
-- [Power Delivery & Conversion Network](#-power-delivery--conversion-network)
-- [LDR Quadrant Optics & Tracking Mathematics](#-ldr-quadrant-optics--tracking-mathematics)
-- [Autonomous Sun-Tracking State Machine](#-autonomous-sun-tracking-state-machine)
-- [Full-Duplex UART Communication Protocol](#-full-duplex-uart-communication-protocol)
-- [Circuit Schematics & Hardware Pinout](#-circuit-schematics--hardware-pinout)
+- [Distributed System Architecture (Flowchart)](#-distributed-system-architecture)
+- [Power Delivery & Conversion Network (Flowchart)](#-power-delivery--conversion-network)
+- [LDR Quadrant Optics & Tracking Mathematics (Flowchart)](#-ldr-quadrant-optics--tracking-mathematics)
+- [Autonomous Sun-Tracking State Machine (Diagram)](#-autonomous-sun-tracking-state-machine)
+- [Full-Duplex UART Communication Protocol (Diagram)](#-full-duplex-uart-communication-protocol)
+- [Circuit Schematics & Hardware Pinout (Schematic)](#-circuit-schematics--hardware-pinout)
 - [Embedded Web Console & Solar Analytics](#-embedded-web-console--solar-analytics)
 - [Operating Modes & Trajectory Profiles](#-operating-modes--trajectory-profiles)
 - [Bill of Materials & Hardware Specifications](#-bill-of-materials--hardware-specifications)
@@ -88,7 +88,14 @@ $$\eta(T) = \eta_{25} \cdot \left[1 - \gamma \cdot (T_{\text{ambient}} - 25^\cir
 
 ## 🏗 Distributed System Architecture
 
-The workcell decouples actuation control from IoT telemetry via an isolated serial bus:
+The workcell architecture decouples actuation control from IoT telemetry via an isolated serial bus:
+
+<p align="center">
+  <img src="images/system_architecture.svg" alt="System Architecture Flowchart" width="850">
+</p>
+
+<details>
+<summary><b>View System Architecture Flowchart Data Graph</b></summary>
 
 ```mermaid
 flowchart TD
@@ -129,26 +136,27 @@ flowchart TD
         SERVO_H & SERVO_V --> SOLAR_PV
     end
 
-    subgraph USERS["Operator & Attendant Interfaces"]
-        CLIENT["Browser Client (Desktop / Mobile)<br/>http://<ESP32_IP>"]
-        LOCAL_OP["On-Site Technician<br/>(Rotary Dial + LCD Screen)"]
-    end
-
     LDR_ARRAY -->|Analog A0..A3| ADC_SAMPLER
     DHT -->|GPIO 4 Single-Bus| ESP32_CORE
     BMP -->|I2C SDA:21, SCL:22| ESP32_CORE
     SERVO_DRIVER --> SERVO_H & SERVO_V
     
-    ARDUINO_CORE <== "Bidirectional ASCII UART<br/>(5V Arduino <-> 3.3V ESP32 Divider)" ==> ESP32_CORE
-    WEB_SERVER <== "HTTP / WebSocket JSON" ==> CLIENT
-    LOCAL_UI <== "Physical Interaction" ==> LOCAL_OP
+    ARDUINO_CORE <== "Bidirectional ASCII UART<br/>(Level Shifted 5V <-> 3.3V)" ==> ESP32_CORE
 ```
+</details>
 
 ---
 
 ## ⚡ Power Delivery & Conversion Network
 
 Power stability is critical in robotic tracking systems to avoid actuator-induced microcontroller brownouts:
+
+<p align="center">
+  <img src="images/power_architecture.svg" alt="Power Architecture Flowchart" width="800">
+</p>
+
+<details>
+<summary><b>View Power Topology Network Graph</b></summary>
 
 ```mermaid
 flowchart LR
@@ -175,6 +183,7 @@ flowchart LR
     ESP_VIN --- GND_NODE
     SERVO_BUS --- GND_NODE
 ```
+</details>
 
 > [!CAUTION]
 > **Brownout Prevention:** Never power the MG996R servos directly from the Arduino 5V onboard regulator pin. Stalling or accelerating dual servos can draw upwards of **1.8A–2.2A**, immediately triggering an MCU brownout reset.
@@ -199,36 +208,36 @@ Sun directionality is determined by four light-dependent photoresistors separate
                  Bottom of Panel
 ```
 
-```mermaid
-flowchart TD
-    RAW_ADC["Sample Analog Pins A0..A3<br/>Raw 10-Bit ADC: 0 - 1023"] --> EMA["Exponential Moving Average Filter<br/>S_t = 0.12 * Raw + 0.88 * S_(t-1)"]
-    
-    EMA --> SUM_CALC["Compute Quadrant Sums:<br/>• Top = TL + TR<br/>• Bottom = BL + BR<br/>• Left = TL + BL<br/>• Right = TR + BR"]
-    
-    SUM_CALC --> DIFF_CALC["Calculate Differential Error Vectors:<br/>• Delta_H = Left - Right<br/>• Delta_V = Top - Bottom"]
-    
-    DIFF_CALC --> NIGHT_CHECK{"Total Irradiance<br/>Average < 150?"}
-    
-    NIGHT_CHECK -- Yes (Nighttime) --> NIGHT_STOW["Engage Night Stow Pose:<br/>Horizontal: 175°, Vertical: 5°"]
-    
-    NIGHT_CHECK -- No (Daylight) --> H_DEADBAND{"|Delta_H| > H_TOL (110)?"}
-    
-    H_DEADBAND -- Yes --> MOVE_H["Step Horizontal Servo:<br/>If Delta_H > 0: CurrentH + Speed<br/>If Delta_H < 0: CurrentH - Speed"]
-    H_DEADBAND -- No --> HOLD_H["Azimuth Stable (In Deadband)"]
-    
-    MOVE_H & HOLD_H --> V_DEADBAND{"|Delta_V| > V_TOL (70)?"}
-    
-    V_DEADBAND -- Yes --> MOVE_V["Step Vertical Servo:<br/>If Delta_V > 0: CurrentV + Speed<br/>If Delta_V < 0: CurrentV - Speed"]
-    V_DEADBAND -- No --> HOLD_V["Elevation Stable (In Deadband)"]
-    
-    MOVE_V & HOLD_V --> CLAMP["Apply Hardware Limits [5°, 175°]<br/>Write PWM to Servo Instances"]
-```
+### Complete Decision Flowchart
+
+<p align="center">
+  <img src="images/tracking_algorithm_flowchart.svg" alt="Sun Tracking Decision Flowchart" width="850">
+</p>
+
+### Mathematical Derivation of Tracking Errors
+1. **Exponential Moving Average Low-Pass Filtering:**
+   $$S_t = \alpha \cdot \text{Raw} + (1 - \alpha) \cdot S_{t-1} \quad (\alpha = 0.12)$$
+2. **Quadrant Summation:**
+   $$\text{Top} = TL + TR, \quad \text{Bottom} = BL + BR$$
+   $$\text{Left} = TL + BL, \quad \text{Right} = TR + BR$$
+3. **Differential Error Vectors:**
+   $$\Delta H = \text{Left} - \text{Right}, \quad \Delta V = \text{Top} - \text{Bottom}$$
+4. **Deadband Threshold Enforcement:**
+   - Azimuth adjustment engaged only when $|\Delta H| > 110$
+   - Elevation adjustment engaged only when $|\Delta V| > 70$
 
 ---
 
 ## 🔄 Autonomous Sun-Tracking State Machine
 
 The Arduino firmware operates as a non-blocking finite state machine handling auto-tracking, manual overrides, demo sweeps, and solar astronomical presets:
+
+<p align="center">
+  <img src="images/operating_modes_state_machine.svg" alt="Operating Modes State Machine Diagram" width="850">
+</p>
+
+<details>
+<summary><b>View State Transition Code Representation</b></summary>
 
 ```mermaid
 stateDiagram-v2
@@ -257,6 +266,7 @@ stateDiagram-v2
         MoveToNext --> [*] : All Waypoints Finished
     }
 ```
+</details>
 
 ---
 
@@ -264,38 +274,9 @@ stateDiagram-v2
 
 Communication between the ESP32 (Master) and Arduino UNO (Slave) occurs over a robust, line-buffered ASCII serial channel at **9600 baud**:
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant WEB as Web Dashboard / Client
-    participant ESP as ESP32 (Hardware Serial2)
-    participant ARD as Arduino UNO (Serial)
-    participant ACT as MG996R Servos
-
-    Note over ESP,ARD: Full-Duplex UART Stream (Level Shifted 5V <-> 3.3V)
-
-    loop Telemetry Interval (~600 ms)
-        ARD->>ESP: LDR:512,520,480,490\n
-        ARD->>ESP: POS:95,45\n
-        ESP->>WEB: Push JSON Telemetry via HTTP / Auto-Poll
-    end
-
-    opt Manual Web Override Triggered
-        WEB->>ESP: Slider Interaction: H=120, V=60
-        ESP->>ARD: SH:120\n
-        ESP->>ARD: SV:60\n
-        ARD->>ACT: Step Servos toward Target Position
-        ARD->>ESP: POS:120,60\n
-        ESP->>WEB: Update Live Position Needle
-    end
-
-    opt Parameter Reconfiguration
-        WEB->>ESP: Set Inversion & Speed (SPD:12, FLIP:H)
-        ESP->>ARD: SPD:12\n
-        ESP->>ARD: FLIP:H\n
-        ARD->>ARD: Write to EEPROM Address 5
-    end
-```
+<p align="center">
+  <img src="images/uart_protocol_flow.svg" alt="UART Communication Protocol Sequence Flow" width="850">
+</p>
 
 ### Supported Command Set
 
@@ -317,7 +298,9 @@ sequenceDiagram
 ## 🔌 Circuit Schematics & Hardware Pinout
 
 <p align="center">
-  <img src="images/circuit_schematic.png" alt="Circuit Schematic Diagram" width="800">
+  <img src="images/circuit_schematic.png" alt="Circuit Schematic Diagram" width="850">
+  <br>
+  <img src="images/circuit_diagram.png" alt="Circuit Wiring Diagram" width="800">
 </p>
 
 ### 1. Arduino UNO Pin Mapping
