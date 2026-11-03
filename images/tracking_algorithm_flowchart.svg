@@ -73,7 +73,7 @@
 
   <!-- Step 4: Quadrant Sums -->
   <rect x="250" y="380" width="500" height="65" rx="10" fill="#1e293b" stroke="#06b6d4" stroke-width="2" filter="url(#shadow)"/>
-  <text x="500" y="405" text-anchor="middle" fill="#22d3ee" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">3. Quadrant Aggregation & Error Calculation</text>
+  <text x="500" y="405" text-anchor="middle" fill="#22d3ee" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">3. Quadrant Aggregation &amp; Error Calculation</text>
   <text x="500" y="428" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, sans-serif" font-size="13">Top = TL+TR, Bottom = BL+BR | Left = TL+BL, Right = TR+BR</text>
 
   <line x1="500" y1="445" x2="500" y2="475" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
@@ -148,9 +148,9 @@
   <line x1="670" y1="950" x2="500" y2="950" stroke="#10b981" stroke-width="2.5"/>
   <line x1="500" y1="950" x2="500" y2="975" stroke="#e2e8f0" stroke-width="3" marker-end="url(#arrow)"/>
 
-  <!-- Step 5: Clamp & Apply -->
+  <!-- Step 5: Clamp &amp; Apply -->
   <rect x="260" y="975" width="480" height="65" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="2" filter="url(#shadow)"/>
-  <text x="500" y="1002" text-anchor="middle" fill="#fbbf24" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">4. Boundary Clamp & Actuation Output</text>
+  <text x="500" y="1002" text-anchor="middle" fill="#fbbf24" font-family="Segoe UI, sans-serif" font-size="15" font-weight="bold">4. Boundary Clamp &amp; Actuation Output</text>
   <text x="500" y="1025" text-anchor="middle" fill="#cbd5e1" font-family="Segoe UI, sans-serif" font-size="13">Constrain [5°, 175°] -&gt; servoH.write(h), servoV.write(v)</text>
 
   <line x1="500" y1="1040" x2="500" y2="1070" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
