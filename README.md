@@ -1,13 +1,13 @@
 # ☀️ HELIOS MOTION — Intelligent Dual-Axis Solar Tracking System
 ### Autonomous High-Yield Photovoltaic Solar Tracking Workcell with Dual Microcontroller Architecture & Real-Time Embedded IoT Dashboard
 
-[![Platform: ESP32 + Arduino](https://img.shields.io/badge/Architecture-ESP32%20%2B%20Arduino%20UNO-blue.svg?logo=arduino&logoColor=white)](https://github.com/sam-black007/dual-axis-solar-tracker)
-[![Dual-Axis Tracking](https://img.shields.io/badge/Tracking-Azimuth%20%2B%20Elevation%20(Dual--Axis)-orange.svg)](https://github.com/sam-black007/dual-axis-solar-tracker)
-[![Firmware: C++](https://img.shields.io/badge/Firmware-C%2B%2B%20(Embedded%20Arduino)-00599C.svg?logo=c%2B%2B&logoColor=white)](https://github.com/sam-black007/dual-axis-solar-tracker)
-[![Web Dashboard](https://img.shields.io/badge/Web%20Dashboard-ESP32%20Async%20WebServer-E67E22.svg)](https://github.com/sam-black007/dual-axis-solar-tracker)
+[![Platform: ESP32 + Arduino](https://img.shields.io/badge/Architecture-ESP32%20%2B%20Arduino%20UNO-blue.svg?logo=arduino&logoColor=white)](https://github.com/sam-black007/helios-motion)
+[![Dual-Axis Tracking](https://img.shields.io/badge/Tracking-Azimuth%20%2B%20Elevation%20(Dual--Axis)-orange.svg)](https://github.com/sam-black007/helios-motion)
+[![Firmware: C++](https://img.shields.io/badge/Firmware-C%2B%2B%20(Embedded%20Arduino)-00599C.svg?logo=c%2B%2B&logoColor=white)](https://github.com/sam-black007/helios-motion)
+[![Web Dashboard](https://img.shields.io/badge/Web%20Dashboard-ESP32%20Async%20WebServer-E67E22.svg)](https://github.com/sam-black007/helios-motion)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](LICENSE-SOFTWARE.md)
-[![Status: Active](https://img.shields.io/badge/Status-Production%20Hardened-brightgreen.svg)](https://github.com/sam-black007/dual-axis-solar-tracker)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/sam-black007/dual-axis-solar-tracker/pulls)
+[![Status: Active](https://img.shields.io/badge/Status-Production%20Hardened-brightgreen.svg)](https://github.com/sam-black007/helios-motion)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/sam-black007/helios-motion/pulls)
 
 **HELIOS MOTION** is an industrial-grade, autonomous dual-axis solar tracking platform engineered to maximize photovoltaic energy harvesting efficiency. By dynamically orienting solar panels perpendicularly toward the sun's direct normal irradiance (DNI) across both **azimuth (horizontal)** and **elevation (vertical)** axes, the system delivers an estimated **35% to 42% increase in annual energy yield** compared to traditional fixed-tilt solar installations.
 
