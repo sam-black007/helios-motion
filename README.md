@@ -1,4 +1,4 @@
-# ☀️ Dual-Axis Solar Tracker Pro
+# ☀️ HELIOS MOTION — Intelligent Dual-Axis Solar Tracking System
 ### Autonomous High-Yield Photovoltaic Solar Tracking Workcell with Dual Microcontroller Architecture & Real-Time Embedded IoT Dashboard
 
 [![Platform: ESP32 + Arduino](https://img.shields.io/badge/Architecture-ESP32%20%2B%20Arduino%20UNO-blue.svg?logo=arduino&logoColor=white)](https://github.com/sam-black007/dual-axis-solar-tracker)
@@ -9,7 +9,7 @@
 [![Status: Active](https://img.shields.io/badge/Status-Production%20Hardened-brightgreen.svg)](https://github.com/sam-black007/dual-axis-solar-tracker)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/sam-black007/dual-axis-solar-tracker/pulls)
 
-**Dual-Axis Solar Tracker Pro** is an industrial-grade, autonomous dual-axis solar tracking platform engineered to maximize photovoltaic energy harvesting efficiency. By dynamically orienting solar panels perpendicularly toward the sun's direct normal irradiance (DNI) across both **azimuth (horizontal)** and **elevation (vertical)** axes, the system delivers an estimated **35% to 42% increase in annual energy yield** compared to traditional fixed-tilt solar installations.
+**HELIOS MOTION** is an industrial-grade, autonomous dual-axis solar tracking platform engineered to maximize photovoltaic energy harvesting efficiency. By dynamically orienting solar panels perpendicularly toward the sun's direct normal irradiance (DNI) across both **azimuth (horizontal)** and **elevation (vertical)** axes, the system delivers an estimated **35% to 42% increase in annual energy yield** compared to traditional fixed-tilt solar installations.
 
 Built upon a distributed **master-slave dual-microcontroller architecture**, the workcell separates high-frequency motor actuation, quadrant sensor filtering, and LCD menu control (**Arduino UNO**) from telemetry processing, environmental sensing (DHT11 + BMP280), OpenWeatherMap meteorological API polling, and a responsive dark-mode embedded web console (**ESP32**).
 
@@ -68,7 +68,7 @@ $$E_{\text{effective}} = E_{\text{direct}} \cdot \cos(\theta) + E_{\text{diffuse
                                   |_____________|
 ```
 
-By maintaining $\theta \approx 0^\circ$ through continuous azimuth ($180^\circ$) and elevation ($180^\circ$) orientation, Dual-Axis Solar Tracker Pro optimizes direct beam harvesting from sunrise to sunset, dampens early-morning/late-afternoon degradation, and maximizes the panel's temperature-adjusted performance ratio:
+By maintaining $\theta \approx 0^\circ$ through continuous azimuth ($180^\circ$) and elevation ($180^\circ$) orientation, HELIOS MOTION optimizes direct beam harvesting from sunrise to sunset, dampens early-morning/late-afternoon degradation, and maximizes the panel's temperature-adjusted performance ratio:
 
 $$\eta(T) = \eta_{25} \cdot \left[1 - \gamma \cdot (T_{\text{ambient}} - 25^\circ\text{C})\right]$$
 
@@ -434,7 +434,7 @@ Install the following libraries via **Tools $\to$ Manage Libraries...**:
 3. Select **Board: Arduino Uno** and the respective COM Port.
 4. Click **Upload**. Open Serial Monitor at **9600 baud** to confirm initialization:
    ```
-   === DUAL AXIS SOLAR TRACKER ===
+   === HELIOS MOTION - SOLAR TRACKER ===
    EEPROM Home loaded: H=175 V=5
    System ready. Starting Auto Mode...
    ```

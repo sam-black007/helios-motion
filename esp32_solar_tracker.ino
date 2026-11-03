@@ -1,6 +1,7 @@
 /*
  * ================================================================
- * DUAL AXIS SOLAR TRACKER - ESP32 MAIN CONTROLLER
+ * HELIOS MOTION — Intelligent Dual-Axis Solar Tracking System
+ * ESP32 MAIN IOT CONTROLLER & WEB GATEWAY
  * ================================================================
  * 
  * Project by: Sam Joseph (@sam-black007) & K M Sri Hari (@kmsrihari123)
@@ -130,7 +131,7 @@ struct SystemState {
 } systemState;
 
 bool flipH = false, flipV = false;
-String lcdLine1 = "Solar Tracker", lcdLine2 = "Initializing...";
+String lcdLine1 = "HELIOS MOTION", lcdLine2 = "Initializing...";
 unsigned long lastSensorUpdate = 0;
 unsigned long lastAPIFetch = 0;
 unsigned long lastEnergyCalc = 0;
@@ -519,7 +520,7 @@ String generateDashboard() {
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>Solar Tracker Pro - Dual Axis Control</title>
+    <title>HELIOS MOTION — Intelligent Dual-Axis Solar Tracking System</title>
     <link href='https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap' rel='stylesheet'>
     <style>
         :root {

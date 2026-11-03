@@ -36,8 +36,8 @@
   <rect x="2" y="2" width="996" height="796" fill="none" stroke="#1e293b" stroke-width="2" rx="16"/>
 
   <!-- Title Badge -->
-  <rect x="250" y="25" width="500" height="50" rx="25" fill="#1e293b" stroke="#06b6d4" stroke-width="2" filter="url(#shadow3)"/>
-  <text x="500" y="56" text-anchor="middle" fill="#22d3ee" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" letter-spacing="1">FULL-DUPLEX UART PROTOCOL</text>
+  <rect x="200" y="25" width="600" height="50" rx="25" fill="#1e293b" stroke="#06b6d4" stroke-width="2" filter="url(#shadow3)"/>
+  <text x="500" y="56" text-anchor="middle" fill="#22d3ee" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" letter-spacing="1">HELIOS MOTION — UART PROTOCOL</text>
 
   <!-- Lifeline Columns -->
   <!-- Lane 1: Web Browser -->

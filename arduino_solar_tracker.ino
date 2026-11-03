@@ -1,6 +1,7 @@
 /*
  * ================================================================
- * DUAL AXIS SOLAR TRACKER - Arduino UNO Controller
+ * HELIOS MOTION — Intelligent Dual-Axis Solar Tracking System
+ * Arduino UNO Motor Controller
  * ================================================================
  * 
  * Project by: Sam Joseph (@sam-black007) & K M Sri Hari (@kmsrihari123)

@@ -48,8 +48,8 @@
   <rect x="2" y="2" width="996" height="1246" fill="none" stroke="#1e293b" stroke-width="2" rx="16"/>
 
   <!-- Title Badge -->
-  <rect x="250" y="25" width="500" height="50" rx="25" fill="#1e293b" stroke="#0284c7" stroke-width="2" filter="url(#shadow)"/>
-  <text x="500" y="56" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="20" font-weight="bold" letter-spacing="1">SUN TRACKING DECISION FLOWCHART</text>
+  <rect x="180" y="25" width="640" height="50" rx="25" fill="#1e293b" stroke="#0284c7" stroke-width="2" filter="url(#shadow)"/>
+  <text x="500" y="56" text-anchor="middle" fill="#38bdf8" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="bold" letter-spacing="1">HELIOS MOTION — TRACKING FLOWCHART</text>
 
   <!-- Step 1: Timer Trigger -->
   <rect x="350" y="105" width="300" height="48" rx="24" fill="url(#boxBlue)" filter="url(#shadow)"/>
